@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+</head>
+<body>
+    {% if request.user.is_authenticated %}
+    <li><a href="{% url 'logout' %}">Log Out</a></li>
+    {% else %}
+    <li><a href="{% url 'login' %}">Log In</a></li>
+    {% endif %}
+    <hr>
+    <a href="{% url 'tasks' %}">Back</a>
+    <h1>Todo list</h1>
+    <a href="{% url 'task-create' %}">Add Task</a>
+
+    <form method="GET">
+      <input type="text" name="search-area" value="{{search_input}}">
+      <input type="submit" value="Search">
+    </form>
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+        </style>
+     
+        <body>
+        <table>
+          <tr>
+            <th>Task</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            {% for task in tasks %}
+            <td>{{ task.title }}</td>
+            <td><a href="{% url 'task' task.pk %}">View</a>
+            <a href="{% url 'task-update' task.pk %}">Update</a>
+            <a href="{% url 'task-delete' task.pk %}">Delete</a>
+            </td>
+        </tr>
+            {% empty %}
+            <h3>No Task Hare</h3>
+            {% endfor%}
+          
+        </table>
+        
+</body>
+</html>
